@@ -1,0 +1,12 @@
+MOUSEKEY_ENABLE = no    # Mouse keys
+RGBLIGHT_ENABLE = yes    # Enable WS2812 RGB underlight.
+OLED_ENABLE     = yes
+OLED_DRIVER     = SSD1306
+LTO_ENABLE      = yes
+BOOTMAGIC_ENABLE = no      # Enable Bootmagic Lite
+MOUSEKEY_ENABLE = no       # Mouse keys
+EXTRAKEY_ENABLE = no       # Audio control and System control
+VIA_ENABLE 		= no
+TAP_DANCE_ENABLE = no
+# COMBO_ENABLE = yes
+CONSOLE_ENABLE = no
