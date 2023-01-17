@@ -13,3 +13,7 @@
 
 5. flash your corne
 6. enjoy
+
+### layout
+
+[keyboard-layout-editor](http://www.keyboard-layout-editor.com/#/gists/75d5858872acfa366811df40c6937df0)
