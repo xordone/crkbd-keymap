@@ -33,11 +33,11 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESCAPE,   KC_Q,    KC_W,  KC_E, KC_R, LT(1,KC_NO),                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_LBRC,
+       KC_ESCAPE,   KC_Q,    KC_W,  KC_E, KC_R, KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TAB,  HOME_A,  HOME_S,  HOME_D,  HOME_F,   KC_G,                        KC_H,   HOME_J,  HOME_K,  HOME_L,  HOME_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    LT(0,KC_NO), KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    LT(0,KC_M), KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LCTL,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_BSPC
                                       //`--------------------------'  `--------------------------'
@@ -194,13 +194,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(KC_RBRC); // Intercept hold function to send ]
             return false;
     }
-            case LT(1,KC_NO):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_T); // Intercept tap function to send T
-            } else if (record->event.pressed) {
-                tap_code16(KC_GRV); // Intercept hold function to send ~
-            return false;
-    }
+
     }
 
   if (record->event.pressed) {
