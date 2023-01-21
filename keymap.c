@@ -195,12 +195,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
 
-    }
-
-  if (record->event.pressed) {
+    
+    if (record->event.pressed) {
     set_keylog(keycode, record);
-  }
-  return true;
+    }
+    return true;
 
 }
 #endif // OLED_ENABLE
