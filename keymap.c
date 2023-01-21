@@ -5,6 +5,7 @@
 // #define CUSTOM_SAFE_RANGE SAFE_RANGE
 // #include "modules/lang_shift/include.h"
 
+
 // Tap Dance declarations
 // enum layers {
 //     L_BASE,
@@ -13,11 +14,10 @@
 //     L_ADJUST,
 // };
 
-// enum {
-//     TAP1,
-//     TAP2
-
-// };
+enum {
+    TAP1,
+    TAP2
+};
 // Left-hand home row mods
 #define HOME_A LGUI_T(KC_A)
 #define HOME_S LALT_T(KC_S)
@@ -58,11 +58,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC, XXXXXXX,                      C(KC_LEFT), XXXXXXX, XXXXXXX, C(KC_RIGHT), XXXXXXX, XXXXXXX,
+      KC_TRNS, KC_LPRN, KC_RPRN, KC_LCBR, KC_RCBR, XXXXXXX,                      C(KC_LEFT), XXXXXXX, XXXXXXX, C(KC_RIGHT), XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT,  KC_DOWN, KC_UP, KC_RIGHT, XXXXXXX, XXXXXXX,
+      KC_TRNS, KC_LT, KC_GT, KC_LBRC, KC_RBRC, XXXXXXX,                      KC_LEFT,  KC_DOWN, KC_UP, KC_RIGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP, KC_END, XXXXXXX, KC_TRNS,
+      KC_TRNS, KC_BSLS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP, KC_END, XXXXXXX, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS,   MO(3),  KC_TRNS,     KC_TRNS, KC_TRNS, KC_DEL
                                       //`--------------------------'  `--------------------------'
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       TD(TAP2), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TAP1),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS, KC_TRNS,  KC_TRNS,   KC_TRNS, KC_TRNS, KC_DEL
                                       //`--------------------------'  `--------------------------'
@@ -205,29 +205,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 #endif // OLED_ENABLE
 
-// void dancing_pass(qk_tap_dance_state_t *state, void *user_data) {
+void dancing_pass(qk_tap_dance_state_t *state, void *user_data) {
 
-//     if (state->count >= 3) {
-//         send_string(td1_string);
-        
-//     }
-//     reset_tap_dance(state);
-//     // else if (state->count >= 5) {
-//     //     send_string(td2_string);
-//     //     reset_tap_dance(state);
-//     // }
-// }
-// // void secret_pass(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count >= 3) {
+        send_string(td1_string);
+    }
+    reset_tap_dance(state);
+}
+void secret_pass(qk_tap_dance_state_t *state, void *user_data) {
 
-// //     if (state->count >= 3) {
-// //         send_string(td2_string);
-// //     }
-// //     reset_tap_dance(state);
-// // }
+    if (state->count >= 3) {
+        send_string(td2_string);
+    }
+    reset_tap_dance(state);
+}
 
-// qk_tap_dance_action_t tap_dance_actions[] = {
+qk_tap_dance_action_t tap_dance_actions[] = {
 
-//     [TAP1] = ACTION_TAP_DANCE_FN(dancing_pass),
-//     // [TAP2] = ACTION_TAP_DANCE_FN(secret_pass)
-// };
+    [TAP1] = ACTION_TAP_DANCE_FN(dancing_pass),
+    [TAP2] = ACTION_TAP_DANCE_FN(secret_pass)
+};
 

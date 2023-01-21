@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 
 
-// #define LANG_CHANGE_DEFAULT LANG_CHANGE_CTRL_SHIFT
+#define LANG_CHANGE_DEFAULT LANG_CHANGE_CTRL_SHIFT
 // #define COMBO_COUNT 1
 //#define USE_MATRIX_I2C
 
