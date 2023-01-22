@@ -185,7 +185,7 @@ bool oled_task_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    qk_tap_dance_action_t *action;
+    
     uint16_t mods = get_mods();
 	if (record->event.pressed) {
 		
