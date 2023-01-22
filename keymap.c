@@ -1,13 +1,11 @@
 
 #include QMK_KEYBOARD_H
 #include <stdio.h>
-#include "secret.c"
 #include "custom_keycodes.c"
+#include "tap_dance.c"
 // #define CUSTOM_SAFE_RANGE SAFE_RANGE
 // #include "modules/lang_shift/include.h"
 
-
-// Tap Dance declarations
 // enum layers {
 //     L_BASE,
 //     L_LOWER,
@@ -15,10 +13,7 @@
 //     L_ADJUST,
 // };
 
-enum {
-    TAP1,
-    TAP2
-};
+
 // Left-hand home row mods
 #define HOME_A LGUI_T(KC_A)
 #define HOME_S LALT_T(KC_S)
@@ -185,7 +180,7 @@ bool oled_task_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    
+
     uint16_t mods = get_mods();
 	if (record->event.pressed) {
 		
@@ -212,25 +207,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #endif // OLED_ENABLE
 
-
-void dancing_pass(qk_tap_dance_state_t *state, void *user_data) {
-
-    if (state->count >= 3) {
-        send_string(td1_string);
-    }
-    reset_tap_dance(state);
-}
-void secret_pass(qk_tap_dance_state_t *state, void *user_data) {
-
-    if (state->count >= 3) {
-        send_string(td2_string);
-    }
-    reset_tap_dance(state);
-}
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-
-    [TAP1] = ACTION_TAP_DANCE_FN(dancing_pass),
-    [TAP2] = ACTION_TAP_DANCE_FN(secret_pass),
-};
 
