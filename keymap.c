@@ -2,6 +2,7 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include "secret.c"
+#include "custom_keycodes.c"
 // #define CUSTOM_SAFE_RANGE SAFE_RANGE
 // #include "modules/lang_shift/include.h"
 
@@ -39,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_ESCAPE,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    LT(0,KC_NO), KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LCTL,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_BSPC
+                                          KC_LCTL,  MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_BSPC
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -62,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS, KC_LT, KC_GT, KC_LBRC, KC_RBRC, XXXXXXX,                      KC_LEFT,  KC_DOWN, KC_UP, KC_RIGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_BSLS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP, KC_END, XXXXXXX, KC_TRNS,
+      KC_TRNS, KC_BSLS, M_DOT, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP, KC_END, XXXXXXX, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS,   MO(3),  KC_TRNS,     KC_TRNS, KC_TRNS, KC_DEL
                                       //`--------------------------'  `--------------------------'
@@ -184,25 +185,33 @@ bool oled_task_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    
-    
+    qk_tap_dance_action_t *action;
+    uint16_t mods = get_mods();
+	if (record->event.pressed) {
+		
+		switch (keycode) {
+		case M_DOT:
+			tap_alt_code2(mods, 4, 6);
+		break;
+		}
+	}
     switch (keycode) {
         case LT(0,KC_NO):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_M); // Intercept tap function to send M
             } else if (record->event.pressed) {
                 tap_code16(KC_RBRC); // Intercept hold function to send ]
-            return false;
+            return false;     
     }
-
-    
-    if (record->event.pressed) {
+    }
+  if (record->event.pressed) {
     set_keylog(keycode, record);
-    }
-    return true;
-    }
+  }
+  return true;
 }
+
 #endif // OLED_ENABLE
+
 
 void dancing_pass(qk_tap_dance_state_t *state, void *user_data) {
 
@@ -222,6 +231,6 @@ void secret_pass(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
 
     [TAP1] = ACTION_TAP_DANCE_FN(dancing_pass),
-    [TAP2] = ACTION_TAP_DANCE_FN(secret_pass)
+    [TAP2] = ACTION_TAP_DANCE_FN(secret_pass),
 };
 
