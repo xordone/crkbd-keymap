@@ -32,7 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TAB,  HOME_A,  HOME_S,  HOME_D,  HOME_F,   KC_G,                        KC_H,   HOME_J,  HOME_K,  HOME_L,  HOME_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_ESCAPE,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    LT(0,KC_NO), KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
+      KC_ESCAPE,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    TD(CS_M), KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LCTL,  MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_BSPC
                                       //`--------------------------'  `--------------------------'
@@ -179,24 +179,15 @@ bool oled_task_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+        qk_tap_dance_action_t *action;
 
-    uint16_t mods = get_mods();
-	if (record->event.pressed) {
-		
-		switch (keycode) {
-		case M_DOT:
-			tap_alt_code2(mods, 4, 6);
-		break;
-		}
-	}
     switch (keycode) {
-        case LT(0,KC_NO):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_M); // Intercept tap function to send M
-            } else if (record->event.pressed) {
-                tap_code16(KC_RBRC); // Intercept hold function to send ]
-            return false;     
-    }
+    case TD(CS_M):  // list all tap dance keycodes with tap-hold configurations
+    action = &tap_dance_actions[TD_INDEX(keycode)];
+    if (!record->event.pressed && action->state.count && !action->state.finished) {
+        tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+        tap_code16(tap_hold->tap);
+        }
     }
   if (record->event.pressed) {
     set_keylog(keycode, record);
